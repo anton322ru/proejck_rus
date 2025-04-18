@@ -1,14 +1,12 @@
 from data import db_session
 from data.users import User
-from data.jobs import Job
 from forms.user import RegisterForm_user, LoginForm_user
-from forms.job import RegisterForm_job
 import sqlalchemy
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['SECRET_KEY'] = 'hihi_haha'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
