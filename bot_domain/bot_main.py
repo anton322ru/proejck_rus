@@ -1,20 +1,18 @@
-import json
 import logging
 import asyncio
-from aiogram import Bot, Dispatcher, types, F
+
+import keyring
+from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup
-import sqlite3
+from handlers import tasks
+
+a = keyring.get_password('rus_bot', 'okulap')
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
-with open('config.json') as f:
-    con = json.load(f)
-token = con['BOT_TOKEN']
 
-con = sqlite3.connect('db/tasks.db')
-cur = con.cursor()
 reply_keyboard = [[KeyboardButton(text='4 номера', callback_data='4_tasks'),
                    KeyboardButton(text='9 номера', callback_data='9_tasks')],
                   [KeyboardButton(text='10 номера', callback_data='10_tasks'),
@@ -24,27 +22,20 @@ reply_keyboard = [[KeyboardButton(text='4 номера', callback_data='4_tasks'
                    KeyboardButton(text="остановить", callback_data='stop')]]
 kb = ReplyKeyboardMarkup(keyboard=reply_keyboard,
                          input_field_placeholder="Воспользуйтесь меню:")
-
-tasks_keyboard = [[KeyboardButton(text='Закончить', callback_data='exit_task')]]
-s_kb = ReplyKeyboardMarkup(keyboard=tasks_keyboard)
-
-permit_keyboard = [[KeyboardButton(text='Закончить', callback_data='exit_task'),
-                    KeyboardButton(text='Продолжить', callback_data='continue_task')]]
-prem_kb = ReplyKeyboardMarkup(keyboard=permit_keyboard)
 dp = Dispatcher()
+dp.include_routers(tasks.router)
 
 
 async def main():
-    bot = Bot(token=token)
+    bot = Bot(token=a)
     await dp.start_polling(bot)
 
 
-@dp.message(F.text == "Закончить")
+@dp.message(F.text == 'Закончить')
 @dp.message(Command('start'))
 async def process_start_command(message: types.Message):
     await message.reply(f"Привет, {message.from_user.full_name}!\nВыбирай, что будешь делать сегодня",
                         reply_markup=kb)
-    print(message.text)
 
 
 @dp.message(F.text == "остановить")
@@ -57,23 +48,6 @@ async def process_help_command(message: types.Message):
     text = ['Я бот по русскому, бегу помогать вам идти к соточке!',
             'введите /start, чтобы начать']
     await message.reply('\n'.join(text))
-
-
-req = cur.execute("""SELECT * FROM '4_task' ORDER BY RANDOM();""").fetchone()
-
-
-# await message.reply("здесь будет викторина по 4", reply_markup=s_kb)
-#     que, right, wrong = req
-#
-#     await message.reply("здесь будет викторина по 4", reply_markup=s_kb)
-
-@dp.message(F.text == "4 номера")
-async def four_task(message: types.Message):
-    await message.reply("Вам будет дано слово,\nв котором не указано ударение\nВыберите правильный ответ",
-                        reply_markup=prem_kb)
-
-
-
 
 
 @dp.message(F.text == "9 номера")
