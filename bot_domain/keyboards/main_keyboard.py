@@ -10,6 +10,6 @@ def main_keyb() -> ReplyKeyboardMarkup:
     kb.button(text='22 номера')
     kb.button(text='Список сложных слов')
     kb.button(text='Добавить слово')
-    kb.button(text='остановить')
+    kb.button(text='Остановить')
     kb.adjust(2)
     return kb.as_markup(resize_keyboard=True, input_field_placeholder="Воспользуйтесь меню:)")

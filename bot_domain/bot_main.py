@@ -26,11 +26,11 @@ async def main():
 @dp.message(F.text == 'Закончить')
 @dp.message(Command('start'))
 async def process_start_command(message: types.Message):
-    await message.reply(f"Привет, {message.from_user.full_name}!\nВыбирай, что будешь делать сегодня",
+    await message.reply(f"Привет, {message.from_user.full_name.capitalize()}!\nВыбирай, что будешь делать сегодня",
                         reply_markup=main_keyb())
 
 
-@dp.message(F.text == "остановить")
+@dp.message(F.text == "Остановить")
 async def stop(message: types.Message):
     await message.reply("Пока:(", reply_markup=ReplyKeyboardRemove())
 
