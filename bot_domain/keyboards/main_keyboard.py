@@ -12,4 +12,4 @@ def main_keyb() -> ReplyKeyboardMarkup:
     kb.button(text='Добавить слово')
     kb.button(text='остановить')
     kb.adjust(2)
-    return kb.as_markup(resize_keyboard=True, input_field_placeholder="Воспользуйтесь меню:")
+    return kb.as_markup(resize_keyboard=True, input_field_placeholder="Воспользуйтесь меню:)")

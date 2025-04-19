@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardRemove
-from handlers import four_task, nine_task, ten_task
+from handlers import four_task, nine_task, ten_task, twtw_task
 import os
 from dotenv import load_dotenv
 from keyboards.main_keyboard import main_keyb
@@ -14,7 +14,11 @@ logging.basicConfig(
 )
 dp = Dispatcher()
 router = Router()
-dp.include_routers(four_task.router, nine_task.router, ten_task.router)
+dp.include_routers(four_task.router, nine_task.router, ten_task.router,
+                   twtw_task.router)
+
+
+# убрать возможность отвечать на старые квизы!!!(4, 9, 10)
 
 
 async def main():
@@ -41,11 +45,6 @@ async def process_help_command(message: types.Message):
     await message.reply('\n'.join(text))
 
 
-@dp.message(F.text == "22 номера")
-async def four_task(message: types.Message):
-    await message.reply("здесь будет викторина по 22")
-
-
 @dp.message(F.text == "Список сложных слов")
 async def word_list(message: types.Message):
     await message.reply("здесь будет список слов")
@@ -53,7 +52,7 @@ async def word_list(message: types.Message):
 
 @dp.message(F.text == "Добавить слово")
 async def add_word(message: types.Message):
-    await message.reply("можно добавить слово", reply_markup=s_kb)
+    await message.reply("можно добавить слово")
 
 
 if __name__ == '__main__':
