@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from bot_domain.keybords.for_tasks import get_cor_or_wrong
-from bot_domain.keybords.continue_task import cont_or_exit
+from bot_domain.keyboards.for_tasks import get_cor_or_wrong
+from bot_domain.keyboards.continue_task import cont_or_exit
 import sqlite3
 
 router = Router()
@@ -16,10 +16,10 @@ async def start_nine_task(message: Message):
     global que, right, wrong
     req = cur.execute("""SELECT * FROM '9_task' ORDER BY RANDOM();""").fetchone()
     que, right, wrong = req
-    await message.answer(f'Выберите правильное написание слова: {que}', reply_markup=get_cor_or_wrong(right, wrong))
+    await message.answer(f'Выберите правильное написание слова: {que}', reply_markup=get_cor_or_wrong(right, wrong, 9))
 
 
-@router.callback_query(F.data == 'correct')
+@router.callback_query(F.data == 'correct_9')
 async def right_choice(call: CallbackQuery):
     global que, right, wrong
     await call.message.answer('Правильно', reply_markup=cont_or_exit(9))
@@ -27,7 +27,7 @@ async def right_choice(call: CallbackQuery):
     que, right, wrong = req
 
 
-@router.callback_query(F.data == 'wrong')
+@router.callback_query(F.data == 'wrong_9')
 async def wrong_choice(call: CallbackQuery):
     global que, right, wrong
     await call.message.answer(f'Неправильно. Правильное написание: {right}', reply_markup=cont_or_exit(9))

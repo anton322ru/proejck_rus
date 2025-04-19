@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from bot_domain.keybords.for_tasks import get_cor_or_wrong
-from bot_domain.keybords.continue_task import cont_or_exit
+from bot_domain.keyboards.for_tasks import get_cor_or_wrong
+from bot_domain.keyboards.continue_task import cont_or_exit
 import sqlite3
 
 router = Router()

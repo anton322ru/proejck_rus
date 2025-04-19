@@ -6,7 +6,7 @@ from aiogram.types import ReplyKeyboardRemove
 from handlers import four_task, nine_task
 import os
 from dotenv import load_dotenv
-from keybords.main_keyboard import main_keyb
+from keyboards.main_keyboard import main_keyb
 
 load_dotenv()
 logging.basicConfig(
@@ -34,7 +34,7 @@ async def stop(message: types.Message):
     await message.reply("Пока:(", reply_markup=ReplyKeyboardRemove())
 
 
-@dp.message(Command('help'))  # декоратор для обработчика команды help
+@dp.message(Command('help'))
 async def process_help_command(message: types.Message):
     text = ['Я бот по русскому, бегу помогать вам идти к соточке!',
             'введите /start, чтобы начать']

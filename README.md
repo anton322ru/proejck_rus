@@ -1,1 +1,1 @@
-# proejck_rus
+# project_rus
