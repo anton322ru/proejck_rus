@@ -22,6 +22,7 @@ async def start_nine_task(message: Message):
 @router.callback_query(F.data == 'correct_9')
 async def right_choice(call: CallbackQuery):
     global que, right, wrong
+    await call.message.delete()
     await call.message.answer('Правильно', reply_markup=cont_or_exit(9))
     req = cur.execute("""SELECT * FROM '9_task' ORDER BY RANDOM();""").fetchone()
     que, right, wrong = req
@@ -30,6 +31,7 @@ async def right_choice(call: CallbackQuery):
 @router.callback_query(F.data == 'wrong_9')
 async def wrong_choice(call: CallbackQuery):
     global que, right, wrong
+    await call.message.delete()
     await call.message.answer(f'Неправильно. Правильное написание: {right}', reply_markup=cont_or_exit(9))
     req = cur.execute("""SELECT * FROM '9_task' ORDER BY RANDOM();""").fetchone()
     que, right, wrong = req
