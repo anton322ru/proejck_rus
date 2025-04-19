@@ -1,14 +1,14 @@
-from aiogram.types import ReplyKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 
-def get_cor_or_wrong(correct, wrong) -> ReplyKeyboardMarkup:
-    kb = ReplyKeyboardBuilder()
+def get_cor_or_wrong(correct, wrong):
     if len(correct) % 2 == 0:
-        kb.button(text=wrong)
-        kb.button(text=correct)
+        inline_kb_list = [
+            [InlineKeyboardButton(text=correct, callback_data='correct')],
+            [InlineKeyboardButton(text=wrong, callback_data='wrong')]]
     else:
-        kb.button(text=correct)
-        kb.button(text=wrong)
-    kb.adjust(2)
-    return kb.as_markup(resize_keyboard=True)
+        inline_kb_list = [
+            [InlineKeyboardButton(text=wrong, callback_data='wrong')],
+            [InlineKeyboardButton(text=correct, callback_data='correct')]]
+    return InlineKeyboardMarkup(inline_keyboard=inline_kb_list)
