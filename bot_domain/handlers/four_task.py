@@ -10,7 +10,7 @@ cur = con.cursor()
 que, right, wrong = 0, 0, 0
 
 
-@router.message(F.text == 'Продолжить')
+@router.message(F.text == 'Продолжить 4 номера')
 @router.message(F.text == '4 номера')
 async def start_four_task(message: Message):
     global que, right, wrong
@@ -22,7 +22,7 @@ async def start_four_task(message: Message):
 @router.callback_query(F.data == 'correct')
 async def right_choice(call: CallbackQuery):
     global que, right, wrong
-    await call.message.answer('Правильно', reply_markup=cont_or_exit())
+    await call.message.answer('Правильно', reply_markup=cont_or_exit(4))
     req = cur.execute("""SELECT * FROM '4_task' ORDER BY RANDOM();""").fetchone()
     que, right, wrong = req
 
@@ -30,6 +30,6 @@ async def right_choice(call: CallbackQuery):
 @router.callback_query(F.data == 'wrong')
 async def wrong_choice(call: CallbackQuery):
     global que, right, wrong
-    await call.message.answer(f'Неправильно. Правильное ударение: {right}', reply_markup=cont_or_exit())
+    await call.message.answer(f'Неправильно. Правильное ударение: {right}', reply_markup=cont_or_exit(4))
     req = cur.execute("""SELECT * FROM '4_task' ORDER BY RANDOM();""").fetchone()
     que, right, wrong = req

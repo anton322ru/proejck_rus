@@ -1,15 +1,12 @@
 import logging
 import asyncio
-from asyncio import create_task, gather
-
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardRemove
-from handlers import tasks
+from handlers import four_task, nine_task
 import os
 from dotenv import load_dotenv
 from keybords.main_keyboard import main_keyb
-from keybords.continue_task import cont_or_exit
 
 load_dotenv()
 logging.basicConfig(
@@ -17,7 +14,7 @@ logging.basicConfig(
 )
 dp = Dispatcher()
 router = Router()
-dp.include_routers(tasks.router)
+dp.include_routers(four_task.router, nine_task.router)
 
 
 async def main():
@@ -42,11 +39,6 @@ async def process_help_command(message: types.Message):
     text = ['Я бот по русскому, бегу помогать вам идти к соточке!',
             'введите /start, чтобы начать']
     await message.reply('\n'.join(text))
-
-
-@dp.message(F.text == "9 номера")
-async def nine_task(message: types.Message):
-    await message.reply("здесь будет викторина по 9")
 
 
 @dp.message(F.text == "10 номера")
