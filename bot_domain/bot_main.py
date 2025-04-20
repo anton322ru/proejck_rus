@@ -18,6 +18,7 @@ dp.include_routers(four_task.router, nine_task.router, ten_task.router,
                    twtw_task.router, add_word.router)
 
 
+# исправить вывод 22 в бот(проблема с \n)
 async def main():
     bot = Bot(token=os.environ.get('BOT_TOKEN'))
     await dp.start_polling(bot)
