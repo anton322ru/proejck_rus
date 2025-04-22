@@ -19,7 +19,6 @@ dp.include_routers(four_task.router, nine_task.router, ten_task.router,
 
 
 # сделать main клавиатуру одноразовой
-
 async def main():
     bot = Bot(token=os.environ.get('BOT_TOKEN'))
     await dp.start_polling(bot)
