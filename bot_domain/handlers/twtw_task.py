@@ -22,7 +22,7 @@ async def start_twtw_task(message: Message, state: FSMContext):
     que, right = req
     right = right.split(';')
     await state.set_state(Form.ans)
-    await message.answer(f'Напишите, какое средство выразительности здесь встречается:\n{que}',
+    await message.answer(f'Напишите, какое средство выразительности здесь встречается:\n{que.replace(r"\n", "\n")}',
                          reply_markup=ReplyKeyboardRemove())
 
 
