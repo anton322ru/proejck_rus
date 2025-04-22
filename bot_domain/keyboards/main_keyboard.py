@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 
-def main_keyb() -> ReplyKeyboardMarkup:
+def main_keyb():
     kb = ReplyKeyboardBuilder()
     kb.button(text="4 номера")
     kb.button(text="9 номера")
