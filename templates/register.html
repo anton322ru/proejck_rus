@@ -6,7 +6,7 @@
 <div class="auth-form">
     <h2>Регистрация</h2>
     
-    <form method="POST" class="auth-form-content">
+    <form method="POST" class="multipart/form-data">
         {{ form.hidden_tag() }}
 
 
@@ -50,7 +50,8 @@
                 </div>
             {% endif %}
         </div>
-        
+
+
         <div class="form-group">
             {{ form.password_again.label }}
             {{ form.password_again(class="form-control") }}
@@ -60,7 +61,12 @@
                 </div>
             {% endif %}
         </div>
-        
+
+        <div class="form-group">
+            <label for="avatar">Аватар</label>
+            <input type="file" class="from-control" id="avatar" name="avatar">
+        </div>
+
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>
     

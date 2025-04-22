@@ -11,6 +11,7 @@ class User(SqlAlchemyBase, UserMixin):
     surname = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
+    avatar = Column(String, nullable=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
