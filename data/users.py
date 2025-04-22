@@ -1,32 +1,19 @@
-import datetime
-import sqlalchemy
-from flask_login import UserMixin
-
-from .db_session import SqlAlchemyBase
-from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask_login import UserMixin
+from data.db_session import SqlAlchemyBase
+from sqlalchemy import Column, Integer, String
 
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer,
-                           primary_key=True, autoincrement=True)
-    surname = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    age = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
-    position = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    speciality = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    address = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    email = sqlalchemy.Column(sqlalchemy.String,
-                              index=True, unique=True, nullable=True)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
-                                      default=datetime.datetime.now)
-    job = orm.relationship('Job', back_populates='user')
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    surname = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    password_hash = Column(String, nullable=False)
 
     def set_password(self, password):
-        self.hashed_password = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.hashed_password, password)
+        return check_password_hash(self.password_hash, password)

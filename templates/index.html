@@ -1,38 +1,20 @@
 {% extends "base.html" %}
 
+{% block title %}Главная страница{% endblock %}
+
 {% block content %}
-<h1>Works log</h1>
-{% if current_user.is_authenticated %}
-<a href="job" class="btn btn-secondary">Add job</a>
-{% endif %}
-{% for item in info%}
-<h2>Action # {{ item.Job.id }}</h2>
-<div class="row">
-    <div class="col-6 col-sm-3 name">Title of activity</div>
-    <div class="col-6 col-sm-3 name">Team leader</div>
-    <div class="col-6 col-sm-3 name">List of collaborators</div>
-    <div class="col-6 col-sm-3 name">Is finished</div>
-</div>
-<div class="row">
-    <div class="col-6 col-sm-3">{{ item.Job.job }}</div>
-    <div class="col-6 col-sm-3">{{ item.Job.team_leader }}</div>
-    <div class="col-6 col-sm-3">{{ item.Job.collaborators }}</div>
-    {% if item.Job.is_finished %}
-    <div class="col-6 col-sm-3">Is finished</div>
+<div class="main-content">
+    <h1>Добро пожаловать!</h1>
+    
+    {% if current_user.is_authenticated %}
+        <p>Вы вошли как <strong>{{ current_user.email }}</strong></p>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Выйти</a>
     {% else %}
-    <div class="col-6 col-sm-3">Is not finished</div>
+        <p>Пожалуйста, войдите или зарегистрируйтесь</p>
+        <div class="auth-buttons">
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Войти</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Регистрация</a>
+        </div>
     {% endif %}
 </div>
-{% if current_user.is_authenticated and (current_user.id == item.Job.team_leader or current_user.id == 1) %}
-<div>
-    <a href="/job/{{ item.Job.id }}" class="btn btn-warning">
-        Edit Job
-    </a>
-    <a href="/job_delete/{{ item.Job.id }}" class="btn btn-danger">
-        Delete Job
-    </a>
-
-</div>
-{% endif %}
-{% endfor %}
 {% endblock %}
