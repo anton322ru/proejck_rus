@@ -11,5 +11,6 @@ def main_keyb() -> ReplyKeyboardMarkup:
     kb.button(text='Список сложных слов')
     kb.button(text='Добавить слово')
     kb.button(text='Остановить')
+    kb.button(text='Настройки слова дня')
     kb.adjust(2)
     return kb.as_markup(resize_keyboard=True, input_field_placeholder="Воспользуйтесь меню:)")
