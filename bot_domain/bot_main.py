@@ -46,6 +46,7 @@ async def process_help_command(message: types.Message):
 @dp.message(F.text == "Список сложных слов")
 async def word_list(message: types.Message):
     await message.reply("здесь будет список слов")
+    
 
 
 if __name__ == '__main__':
