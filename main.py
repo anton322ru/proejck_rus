@@ -84,6 +84,17 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.args.get('username'):
+        user_id = request.args.get("id")
+        first_name = request.args.get("first_name")
+        photo_url = request.args.get("photo_url")
+
+        session['user_id'] = user_id
+        session['name'] = first_name
+        session['photo'] = photo_url
+
+        return render_template('profile.html',
+                               name=session['name'])
     form = LoginForm_user()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
