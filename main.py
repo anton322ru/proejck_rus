@@ -1,5 +1,5 @@
 import sqlalchemy
-from flask import Flask, render_template, redirect, request, abort
+from flask import Flask, render_template, redirect, request, abort, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from data import db_session
@@ -13,10 +13,20 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'your-secret-key-here'
 app.config['IMAGE'] = 'static\image_person'
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.jinja_env.globals.update(BOTID='7543421341')
+app.jinja_env.globals.update(BOTNAME='@hehe_rus_bot')
+app.jinja_env.globals.update(
+    BOTDOMAIN='http://127.0.0.1:5000')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
 
 @login_manager.user_loader
@@ -33,7 +43,7 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm_user()
-    avatar_file= None
+    avatar_file = None
     if form.avatar.data:
         avatar = form.avatar.data
         filename = secure_filename(avatar.filename)
@@ -52,7 +62,6 @@ def register():
             return render_template('register.html',
                                    title='Регистрация', form=form)
 
-
         user = User(
             surname=form.surname.data,
             name=form.name.data,
@@ -64,7 +73,6 @@ def register():
 
         db_sess.add(user)
         db_sess.commit()
-
 
     if form.errors:
         app.logger.debug(f"Ошибки формы регистрации: {form.errors}")
@@ -83,12 +91,13 @@ def login():
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
 
-
     return render_template('login.html', form=form)
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     return render_template('profile.html')
+
 
 @app.route('/logout')
 @login_required
