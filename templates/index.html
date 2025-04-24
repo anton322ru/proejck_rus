@@ -4,17 +4,20 @@
 
 {% block content %}
 <div class="main-content">
+    <script async src="https://telegram.org/js/telegram-widget.js?21" data-telegram-login="{{BOTNAME}}" data-size="large" data-auth-url="{{BOTDOMAIN}}/login" data-request-access="write"></script>
     <h1>Добро пожаловать!</h1>
-    
+
     {% if current_user.is_authenticated %}
-        <p>Вы вошли как <strong>{{ current_user.email }}</strong></p>
-        <a href="{{ url_for('logout') }}" class="btn btn-danger">Выйти</a>
+    <p>Вы вошли как <strong>{{ current_user.email }}</strong></p>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Выйти</a>
     {% else %}
-        <p>Пожалуйста, войдите или зарегистрируйтесь</p>
-        <div class="auth-buttons">
-            <a href="{{ url_for('login') }}" class="btn btn-primary">Войти</a>
-            <a href="{{ url_for('register') }}" class="btn btn-secondary">Регистрация</a>
-        </div>
+    <p>Пожалуйста, войдите или зарегистрируйтесь</p>
+    <div class="auth-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Войти</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Регистрация</a>
+        <a href="https://oauth.telegram.org/auth?bot_id={{BOTID}}&origin={{BOTDOMAIN}}" class="btn btn-secondary">Авторизоваться
+            через Telegram</a>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

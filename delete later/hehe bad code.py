@@ -1,34 +1,47 @@
-import asyncio
-import aioschedule
-import logging
-from aiogram import Bot, Dispatcher, types, F, Router
-from aiogram.filters import Command
-from bot_domain.keyboards.main_keyboard import main_keyb
-from aiogram.types import ReplyKeyboardRemove
+# привязка к тг
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-dp = Dispatcher()
+def template(tmpl_name, **kwargs):
+    telegram = False
+    user_id = session.get('user_id')
+    username = session.get('name')
+    photo = session.get('photo')
 
+    if user_id:
+        telegram = True
 
-# сделать main клавиатуру одноразовой
-async def main():
-    bot = Bot(token='')
-    await dp.start_polling(bot)
+    return render_template(tmpl_name,
+                           telegram = telegram,
+                           user_id = user_id,
+                           name = username,
+                           photo = photo,
+                           **kwargs)
 
+@app.route("/")
+def index():
+    return template("telegram.html")
 
-@dp.message(Command('start'))
-async def process_start_command(message: types.Message):
-    await message.reply(f"Привет, {message.from_user.full_name.capitalize()}!\nВыбирай, что будешь делать сегодня",
-                        reply_markup=main_keyb())
+@app.route("/logout")
+def logout():
+    session.pop("user_id")
+    session.pop("name")
+    session.pop("photo")
 
+    return redirect(url_for('index'))
 
-@dp.message(Command('stop'))
-async def stop(message: types.Message):
-    await message.reply("Пока:(", reply_markup=ReplyKeyboardRemove())
+@app.route("/login")
+def login():
+    user_id = request.args.get("id")
+    first_name = request.args.get("first_name")
+    photo_url = request.args.get("photo_url")
 
+    session['user_id'] = user_id
+    session['name'] = first_name
+    session['photo'] = photo_url
 
-@dp.message(Command('hehe'))
-async def stop(message: types.Message):
-    await message.reply("Пока:(", reply_markup=ReplyKeyboardRemove())
+    return redirect(url_for('index'))
+
+if __name__ == "__main__":
+    app.run(port=8080, host='127.0.0.1')
