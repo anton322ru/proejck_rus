@@ -7,6 +7,7 @@ from handlers import four_task, nine_task, ten_task, twtw_task, add_word, set_ti
 import os
 from dotenv import load_dotenv
 from keyboards.main_keyboard import main_keyb
+import sqlite3
 
 load_dotenv()
 logging.basicConfig(
@@ -16,6 +17,10 @@ dp = Dispatcher()
 router = Router()
 dp.include_routers(four_task.router, nine_task.router, ten_task.router,
                    twtw_task.router, add_word.router, set_timer.router)
+
+con = sqlite3.connect('../db/users.db')
+cur = con.cursor()
+req = cur.execute("""SELECT  FROM users;""").fetchall()
 
 
 # сделать main клавиатуру одноразовой
@@ -28,6 +33,7 @@ async def main():
 @dp.message(F.text == 'Закончить')
 @dp.message(Command('start'))
 async def process_start_command(message: types.Message):
+    if
     await message.reply(f"Привет, {message.from_user.full_name.capitalize()}!\nВыбирай, что будешь делать сегодня",
                         reply_markup=main_keyb())
 
