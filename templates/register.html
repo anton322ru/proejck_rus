@@ -11,26 +11,15 @@
 
 
       <div class="form-group">
-            {{ form.name.label }}
-            {{ form.name(class="form-control") }}
-            {% if form.name.errors %}
+            {{ form.nikname.label }}
+            {{ form.nikname(class="form-control") }}
+            {% if form.nikname.errors %}
                 <div class="error-message">
-                    {{ form.name.errors[0] }}
+                    {{ form.nikname.errors[0] }}
                 </div>
             {% endif %}
         </div>
 
-
-        <div class="form-group">
-            {{ form.surname.label }}
-            {{ form.surname(class="form-control") }}
-            {% if form.surname.errors %}
-                <div class="error-message">
-                    {{ form.surname.errors[0] }}
-                </div>
-            {% endif %}
-        </div>
-        
         <div class="form-group">
             {{ form.email.label }}
             {{ form.email(class="form-control") }}

@@ -22,7 +22,8 @@ async def start_twtw_task(message: Message, state: FSMContext):
     que, right = req
     right = right.split(';')
     await state.set_state(Form.ans)
-    await message.answer(f'Напишите, какое средство выразительности здесь встречается:\n{que.replace(r"\n", "\n")}',
+    que = que.replace(r"\n", "\n")
+    await message.answer(f'Напишите, какое средство выразительности здесь встречается:\n{que}',
                          reply_markup=ReplyKeyboardRemove())
 
 
@@ -34,5 +35,5 @@ async def giving_answer(message: Message, state: FSMContext):
         await message.answer(f"Да. В этом отрывке были такие средства как {', '.join(right)}",
                              reply_markup=cont_or_exit(22))
     else:
-        await message.answer(f'Нет. Здесь были следующие средства: {', '.join(right)}',
+        await message.answer(f'Нет. Здесь были следующие средства: {", ".join(right)}',
                              reply_markup=cont_or_exit(22))
