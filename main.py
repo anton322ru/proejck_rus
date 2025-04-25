@@ -12,16 +12,20 @@ import os
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'your-secret-key-here'
-app.config['IMAGE'] = 'static\image_person'
+app.config['UPLOAD_FOLDER'] = 'static/image_person'
+app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'png'}
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.jinja_env.globals.update(BOTID='7543421341')
 app.jinja_env.globals.update(BOTNAME='@hehe_rus_bot')
 app.jinja_env.globals.update(
     BOTDOMAIN='http://127.0.0.1:5000')
 
+
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'login'\
+
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 @app.before_request
@@ -43,12 +47,6 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm_user()
-    avatar_file = None
-    if form.avatar.data:
-        avatar = form.avatar.data
-        filename = secure_filename(avatar.filename)
-        avatar_file = f'{random.randint(0, 99999999)}_{filename}'
-        avatar.save(os.path.join(app.config['IMAGE'], avatar_file))
 
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
@@ -61,13 +59,21 @@ def register():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html',
                                    title='Регистрация', form=form)
+        avatar_file = None
+        if form.avatar.data:
+            avatar = form.avatar.data
+            filename = secure_filename(avatar.filename)
+            avatar_file = f'{form.nickname.data}_{random.randint(0, 999999999)}_{filename}'
+
+            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], avatar_file))
+
+        db_sess = db_session.create_session()
 
         user = User(
-            nickname=form.nikname.data,
+            nickname=form.nickname.data,
             email=form.email.data,
             password_hash=generate_password_hash(form.password.data),
-            avatar=avatar_file,
-        )
+            avatar=avatar_file,)
         user.set_password(form.password.data)
 
         db_sess.add(user)
@@ -83,6 +89,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     if request.args.get('username'):
         user_id = request.args.get("id")
         first_name = request.args.get("first_name")

@@ -6,16 +6,16 @@
 <div class="auth-form">
     <h2>Регистрация</h2>
     
-    <form method="POST" class="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
 
       <div class="form-group">
-            {{ form.nikname.label }}
-            {{ form.nikname(class="form-control") }}
-            {% if form.nikname.errors %}
+            {{ form.nickname.label }}
+            {{ form.nickname(class="form-control") }}
+            {% if form.nickname.errors %}
                 <div class="error-message">
-                    {{ form.nikname.errors[0] }}
+                    {{ form.nickname.errors[0] }}
                 </div>
             {% endif %}
         </div>
