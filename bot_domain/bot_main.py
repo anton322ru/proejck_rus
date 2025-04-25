@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardRemove
-from handlers import four_task, nine_task, ten_task, twtw_task, add_word, set_timer
+from handlers import four_task, nine_task, ten_task, twtw_task, add_word, set_timer, mistakes_show
 import os
 from dotenv import load_dotenv
 from keyboards.main_keyboard import main_keyb
@@ -16,7 +16,7 @@ logging.basicConfig(
 dp = Dispatcher()
 router = Router()
 dp.include_routers(four_task.router, nine_task.router, ten_task.router,
-                   twtw_task.router, add_word.router, set_timer.router)
+                   twtw_task.router, add_word.router, set_timer.router, mistakes_show.router)
 
 con = sqlite3.connect('../db/users.db')
 cur = con.cursor()
@@ -51,11 +51,6 @@ async def process_help_command(message: types.Message):
     text = ['Я бот по русскому, бегу помогать вам идти к соточке!',
             'введите /start, чтобы начать']
     await message.reply('\n'.join(text))
-
-
-@dp.message(F.text == "Список сложных слов")
-async def word_list(message: types.Message):
-    await message.reply("здесь будет список слов")
 
 
 if __name__ == '__main__':
