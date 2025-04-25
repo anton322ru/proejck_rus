@@ -7,7 +7,7 @@ class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    nikname = Column(String, nullable=False)
+    nickname = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
     avatar = Column(String, nullable=True)
