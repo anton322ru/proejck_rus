@@ -18,6 +18,7 @@ async def start_four_task(message: Message):
     id_req, que, right, wrong = req
     await message.answer(f'Поставьте ударение в слове: {que}', reply_markup=get_cor_or_wrong(right, wrong, 4))
 
+
 @router.callback_query(F.data == 'correct_4')
 async def right_choice(call: CallbackQuery):
     await call.message.delete()
@@ -27,10 +28,25 @@ async def right_choice(call: CallbackQuery):
     id_req, que, right, wrong = req
 
 
+con_user = sqlite3.connect('../db/users.db')
+cur_user = con_user.cursor()
+
+
 @router.callback_query(F.data == 'wrong_4')
 async def wrong_choice(call: CallbackQuery):
     global que, right, wrong
     await call.message.delete()
+    req_all_mistakes = \
+        cur_user.execute(f"""SELECT mistakes_4 FROM users_tg WHERE id = {call.from_user.id}""").fetchone()[0]
+    if req_all_mistakes is not None:
+        res_mistakes = f"{req_all_mistakes};'{right}'"
+    else:
+        res_mistakes = ''
+    req = cur_user.execute(f"""UPDATE users_tg 
+                            SET mistakes_4 = {res_mistakes}
+                             WHERE id = {call.from_user.id};""")
+    con_user.commit()
+
     await call.message.answer(f'Неправильно. Правильное ударение: {right}', reply_markup=cont_or_exit(4))
     req = cur.execute("""SELECT * FROM '4_task' ORDER BY RANDOM();""").fetchone()
     id_req, que, right, wrong = req
