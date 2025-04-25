@@ -23,7 +23,8 @@ cur = con.cursor()
 
 
 # сделать main клавиатуру одноразовой
-# хранение...
+# таймер
+# добавление слова - оно может появиться в слове дня/ будет висеть на сайте/
 async def main():
     bot = Bot(token=os.environ.get('BOT_TOKEN'))
     await dp.start_polling(bot)
