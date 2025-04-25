@@ -20,7 +20,6 @@ dp.include_routers(four_task.router, nine_task.router, ten_task.router,
 
 con = sqlite3.connect('../db/users.db')
 cur = con.cursor()
-req = cur.execute("""SELECT nikname FROM users;""").fetchall()
 
 
 # сделать main клавиатуру одноразовой
@@ -34,11 +33,10 @@ async def main():
 @dp.message(Command('start'))
 async def process_start_command(message: types.Message):
     name = message.from_user.full_name
-    req = cur.execute(f"""SELECT nikname FROM users WHERE nikname = '{name}';""").fetchone()
+    req = cur.execute(f"""SELECT nickname FROM users_tg WHERE nickname = '{name}';""").fetchone()
     if req is None:
-        cur.execute(f"""INSERT INTO users VALUES ('{name}')""")
+        cur.execute(f"""INSERT INTO users_tg(id, nickname) VALUES ({message.from_user.id}, '{name}')""")
         con.commit()
-
     await message.reply(f"Привет, {name.capitalize()}!\nВыбирай, что будешь делать сегодня",
                         reply_markup=main_keyb())
 

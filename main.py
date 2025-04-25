@@ -63,7 +63,7 @@ def register():
                                    title='Регистрация', form=form)
 
         user = User(
-            nikname=form.nikname.data,
+            nickname=form.nikname.data,
             email=form.email.data,
             password_hash=generate_password_hash(form.password.data),
             avatar=avatar_file,
