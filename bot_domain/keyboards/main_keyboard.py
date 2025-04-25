@@ -8,7 +8,7 @@ def main_keyb():
     kb.button(text="9 номера")
     kb.button(text='10 номера')
     kb.button(text='22 номера')
-    kb.button(text='Список сложных слов')
+    kb.button(text='Список ошибок')
     kb.button(text='Добавить слово')
     kb.button(text='Остановить')
     kb.button(text='Настройки слова дня')
