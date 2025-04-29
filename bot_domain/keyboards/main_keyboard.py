@@ -4,10 +4,10 @@ from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 def main_keyb():
     kb = ReplyKeyboardBuilder()
-    kb.button(text="4 номера")
-    kb.button(text="9 номера")
-    kb.button(text='10 номера')
-    kb.button(text='22 номера')
+    kb.button(text="4 номер")
+    kb.button(text="9 номер")
+    kb.button(text='10 номер')
+    kb.button(text='22 номер')
     kb.button(text='Список ошибок')
     kb.button(text='Добавить слово')
     kb.button(text='Остановить')
