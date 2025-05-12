@@ -3,38 +3,73 @@
 {% block title %}Вход в систему{% endblock %}
 
 {% block content %}
-<div class="auth-form">
-    <h2>Вход в систему</h2>
-    
-    <form method="POST" class="auth-form-content">
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.email.label }}
-            {{ form.email(class="form-control") }}
-            {% if form.email.errors %}
-                <div class="error-message">
-                    {{ form.email.errors[0] }}
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="form-group">
-            {{ form.password.label }}
-            {{ form.password(class="form-control") }}
-            {% if form.password.errors %}
-                <div class="error-message">
-                    {{ form.password.errors[0] }}
-                </div>
-            {% endif %}
+<div class="container">
+    <div class="auth-form">
+        <h2>Вход в систему</h2>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.nickname.label }}
+                {{ form.nickname(class="form-control") }}
+                {% if form.nickname.errors %}
+                    <div class="error-message">
+                        {{ form.nickname.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {{ form.password.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+
+        <div class="auth-link">
+            Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a>
         </div>
 
-        
-        <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
-    
-    <div class="auth-link">
-        Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a>
+        <!-- Оригинальная Telegram кнопка -->
+        <div class="telegram-auth mt-3">
+            <p>Или войдите через Telegram:</p>
+            <script async src="https://telegram.org/js/telegram-widget.js?21"
+                    data-telegram-login="{{ BOTNAME }}"
+                    data-size="large"
+                    data-auth-url="{{ BOTDOMAIN }}/register_telegram"
+                    data-request-access="write"></script>
+        </div>
     </div>
 </div>
+
+<style>
+    .auth-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .error-message {
+        color: #dc3545;
+        font-size: 14px;
+    }
+    .telegram-auth {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+</style>
 {% endblock %}

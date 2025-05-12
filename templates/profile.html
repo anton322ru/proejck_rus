@@ -1,31 +1,22 @@
-!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8">
-  <title>Круговая диаграмма</title>
-  <script src="https://www.google.com/jsapi"></script>
-  <script>
-   google.load("visualization", "1", {packages:["corechart"]});
-   google.setOnLoadCallback(drawChart);
-   function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-     ['Газ', 'Объём'],
-     ['Азот',     10],
-     ['Кислород', 10],
-     ['Аргон',    10],
-     ['Углекислый газ', 10]
-    ]);
-    var options = {
-     title: 'Состав воздуха',
-     is3D: true,
-     pieResidueSliceLabel: 'Остальное'
-    };
-    var chart = new google.visualization.PieChart(document.getElementById('air'));
-     chart.draw(data, options);
-   }
-  </script>
- </head>
- <body>
-  <div id="air" style="width: 500px; height: 400px;"></div>
- </body>
-</html>
+<div class="auth-form">
+    <h2>Личный кабинет</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nickname">Никнейм</label>
+            <input type="text" class="form-control" id="nickname" name="nickname" value="{{ current_user.nickname }}">
+        </div>
+
+        <div class="form-group">
+            <label for="avatar">Аватар</label>
+            <input type="file" class="form-control" id="avatar" name="avatar">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+
+    <h3>Привязка Telegram</h3>
+    <p>Ваш Telegram ID: {{ current_user.telegram_id }}</p>
+    <p>Ваш Telegram логин: {{ current_user.telegram_username }}</p>
+    <a href="{{ url_for('link_telegram') }}" class="btn btn-secondary">Привязать Telegram</a>
+</div>
