@@ -1,8 +1,8 @@
 from aiogram import Router, F
 from aiogram.types import Message
+from aiogram.enums import ParseMode
 from bot_domain.keyboards.continue_task import cont_or_exit
 import sqlite3
-from aiogram.enums import ParseMode
 
 router = Router()
 con = sqlite3.connect('../db/users.db')

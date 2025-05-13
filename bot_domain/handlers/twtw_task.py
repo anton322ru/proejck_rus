@@ -8,18 +8,19 @@ from aiogram.fsm.context import FSMContext
 router = Router()
 con = sqlite3.connect('../db/tasks.db')
 cur = con.cursor()
+que, right = 0, 0
 
 
 class Form(StatesGroup):
     ans = State()
 
 
-@router.message(F.text == 'Продолжить 22 номера')
-@router.message(F.text == '22 номера')
+@router.message(F.text == 'Продолжить 22 номер')
+@router.message(F.text == '22 номер')
 async def start_twtw_task(message: Message, state: FSMContext):
-    global que, right
+    global id_req, que, right
     req = cur.execute("""SELECT * FROM '22_task' ORDER BY RANDOM();""").fetchone()
-    que, right = req
+    id_req, que, right = req
     right = right.split(';')
     await state.set_state(Form.ans)
     que = que.replace(r"\n", "\n")

@@ -10,8 +10,8 @@ cur = con.cursor()
 que, right, wrong = 0, 0, 0
 
 
-@router.message(F.text == 'Продолжить 10 номера')
-@router.message(F.text == '10 номера')
+@router.message(F.text == 'Продолжить 10 номер')
+@router.message(F.text == '10 номер')
 async def start_ten_task(message: Message):
     global id_req, que, right, wrong
     req = cur.execute("""SELECT * FROM '10_task' ORDER BY RANDOM();""").fetchone()
