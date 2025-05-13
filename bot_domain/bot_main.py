@@ -23,6 +23,7 @@ dp.include_routers(four_task.router, nine_task.router, ten_task.router,
 
 @dp.message(CommandStart())
 @dp.message(F.text == 'Закончить')
+@dp.message(F.text == 'Выйти')
 async def process_start_command(message: types.Message):
     name = message.from_user.full_name
     req = cur.execute(f"""SELECT nickname FROM users_tg WHERE nickname = '{name}';""").fetchone()

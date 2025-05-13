@@ -1,8 +1,7 @@
 import sqlite3
 from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardRemove
-from bot_domain.keyboards.add_word import add_words
-from bot_domain.keyboards.continue_task import cont_or_exit
+from bot_domain.keyboards.exit_for_timer import timer_exit
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 
@@ -20,7 +19,7 @@ async def start(message: Message, state: FSMContext):
     text = ['Напишите слово, в котором допустили ошибку',
             'Если ошиблись в написании, то обратись к сайту, чтобы исправить:)']
     await state.set_state(Form.word)
-    await message.answer('\n'.join(text), reply_markup=ReplyKeyboardRemove())
+    await message.answer('\n'.join(text), reply_markup=timer_exit())
 
 
 @router.message(Form.word)  # обработчик для определенного статуса
@@ -37,4 +36,4 @@ async def giving_answer(message: Message, state: FSMContext):
     WHERE id = {message.from_user.id}""")
     con.commit()
     await message.answer(f"Ваше слово было сохранено, ожидайте его в уведомлениях)",
-                         reply_markup=cont_or_exit(22))
+                         reply_markup=timer_exit())
