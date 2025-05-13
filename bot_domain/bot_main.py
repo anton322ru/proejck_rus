@@ -4,10 +4,9 @@ from aiogram import Bot, Dispatcher, types, F, Router, BaseMiddleware
 from aiogram.filters import Command, CommandStart
 from aiogram.types import ReplyKeyboardRemove
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sqlalchemy.sql.functions import random
 from random import randint
 
-from handlers import four_task, nine_task, ten_task, twtw_task, add_word, set_timer, mistakes_show
+from handlers import four_task, nine_task, ten_task, twtw_task, add_word, mistakes_show
 import os
 from dotenv import load_dotenv
 from keyboards.main_keyboard import main_keyb
