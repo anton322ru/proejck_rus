@@ -21,8 +21,14 @@ async def show_mist(message: Message):
         res = cur_task.execute(f"SELECT correct FROM '{i}_task' WHERE id IN ({', '.join(req)})").fetchall()
         res = [i[0] for i in res]
         reres[i] = res
+    req = cur.execute(f"""SELECT words FROM users_tg WHERE id = {message.from_user.id}""").fetchone()[0].split(';')
+    reres['Ваши слова'] = req
     res_text = ''
     for num, i in reres.items():
-        res_text += f'\n<b>{num} НОМЕР</b>\n'
-        res_text += '\n'.join(i)
+        if isinstance(num, int):
+            res_text += f'\n<b>{num} НОМЕР</b>\n'
+            res_text += '\n'.join(i)
+        else:
+            res_text += f'\n<b>Ошибки не из тестов бота</b>\n'
+            res_text += '\n'.join(i)
     await message.answer(f'Ваши ошибки:\n{res_text}', reply_markup=cont_or_exit('mistakes'), parse_mode=ParseMode.HTML)
